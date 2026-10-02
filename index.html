@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApexDrive | Premium Vehicle Rental System</title>
+    <title>ApexDrive | Enterprise Vehicle Rental & Fleet Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #090d16;
             --panel-bg: rgba(18, 26, 43, 0.75);
             --border-color: rgba(255, 255, 255, 0.1);
-            --accent-primary: #3b82f6;
+            --accent-blue: #3b82f6;
             --accent-cyan: #06b6d4;
             --accent-emerald: #10b981;
+            --accent-purple: #8b5cf6;
             --accent-gold: #f59e0b;
+            --accent-red: #ef4444;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -28,12 +30,13 @@
                 radial-gradient(at 90% 90%, rgba(6, 182, 212, 0.15) 0px, transparent 50%);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 2rem 1.5rem;
+            padding-bottom: 4rem;
+            line-height: 1.6;
         }
 
         .navbar {
             max-width: 1200px;
-            margin: 0 auto 2.5rem auto;
+            margin: 1.5rem auto 2.5rem auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -42,25 +45,47 @@
             border: 1px solid var(--border-color);
             border-radius: 16px;
             backdrop-filter: blur(16px);
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
         }
 
         .brand {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 100%);
+            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #818cf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
 
-        .user-status {
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-cyan);
+        }
+
+        .user-pill {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             background: rgba(255, 255, 255, 0.05);
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 1rem;
             border-radius: 9999px;
             border: 1px solid var(--border-color);
         }
@@ -71,326 +96,613 @@
             padding: 0.2rem 0.6rem;
             border-radius: 6px;
             font-size: 0.75rem;
-            font-weight: 700;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
-        .container {
+        .hero-banner {
             max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+            padding: 2rem 1rem;
         }
 
-        .section-title {
-            font-size: 1.5rem;
+        .hero-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
             font-weight: 700;
-            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .hero-banner h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            padding: 0 1rem;
+        }
+
+        .stat-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1.25rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-num { font-size: 1.75rem; font-weight: 800; color: #fff; }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+        .controls-bar {
+            max-width: 1200px;
+            margin: 0 auto 2.5rem auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-pills {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .search-input {
+            padding: 0.65rem 1.25rem;
+            background: rgba(9, 13, 22, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            min-width: 260px;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 2rem;
         }
 
         .fleet-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.25rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
         .vehicle-card {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
-            backdrop-filter: blur(12px);
-            transition: all 0.25s ease;
+            border-radius: 20px;
+            padding: 1.75rem;
+            backdrop-filter: blur(14px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            overflow: hidden;
         }
 
         .vehicle-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 12px 24px -6px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6);
         }
 
-        .vehicle-type {
+        .vehicle-category {
             font-size: 0.75rem;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
             color: var(--accent-cyan);
             letter-spacing: 0.05em;
         }
 
-        .vehicle-model {
-            font-size: 1.25rem;
+        .vehicle-title {
+            font-size: 1.35rem;
             font-weight: 700;
             margin: 0.25rem 0 0.5rem 0;
+            color: #fff;
         }
 
-        .vehicle-price {
-            font-size: 1.1rem;
+        .vehicle-rate {
+            font-size: 1.4rem;
             font-weight: 800;
             color: var(--accent-emerald);
             margin-bottom: 1rem;
         }
 
-        .status-pill {
-            display: inline-block;
-            padding: 0.25rem 0.65rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+        .vehicle-specs {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
-        .status-available { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
-        .status-rented { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+        .spec-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+        }
+
+        .status-available { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+        .status-rented { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
 
         .btn {
             width: 100%;
-            padding: 0.75rem;
-            border-radius: 10px;
+            padding: 0.85rem;
+            border-radius: 12px;
             border: none;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .btn-rent {
-            background: var(--accent-primary);
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: #ffffff;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
         }
 
-        .btn-rent:hover {
-            background: #2563eb;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
         }
 
-        .btn-return {
-            background: rgba(255, 255, 255, 0.1);
-            color: #f8fafc;
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
         }
 
-        .booking-panel {
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+
+        .side-panel {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 1.75rem;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
         }
 
-        .form-group {
-            margin-bottom: 1rem;
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
         }
 
-        label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 0.4rem;
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        select, input {
-            width: 100%;
-            padding: 0.7rem 0.9rem;
-            background: rgba(9, 13, 22, 0.7);
+        .modal-card {
+            background: #0f172a;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 540px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600; }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             color: #fff;
             outline: none;
+            font-size: 0.95rem;
         }
 
-        .transaction-log {
-            margin-top: 2rem;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 1.5rem;
-        }
+        input:focus { border-color: var(--accent-blue); }
 
-        .log-item {
-            padding: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.85rem;
+        .receipt-line {
             display: flex;
             justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
+    <!-- Sticky Navigation Navbar -->
     <div class="navbar">
-        <div class="brand">🏎️ ApexDrive Rental Agency</div>
-        <div class="user-status">
-            <span>Customer: <strong>John Doe</strong></span>
-            <span class="tier-badge" id="tier-display">Gold Tier (350 pts)</span>
+        <div class="brand">🏎️ ApexDrive Enterprise Fleet</div>
+        <div class="nav-links">
+            <span class="nav-link active" onclick="scrollToFleet()">Available Fleet</span>
+            <span class="nav-link" onclick="openCustomerModal()">Manage Customers</span>
+            <div class="user-pill">
+                <span id="customer-name-display">John Doe</span>
+                <span class="tier-badge" id="tier-display">Gold Tier (350 pts)</span>
+            </div>
         </div>
     </div>
 
-    <div class="container">
+    <!-- Hero Header -->
+    <div class="hero-banner">
+        <span class="hero-badge">Enterprise Vehicle Rental System</span>
+        <h1>Drive Premium Performance Anywhere</h1>
+        <p style="color:var(--text-muted); max-width:650px; margin:0 auto;">Fully integrated fleet management platform featuring real-time availability, dynamic pricing, insurance coverage, and automated loyalty reward calculations.</p>
+    </div>
+
+    <!-- Live Statistics Banner -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon" style="color:var(--accent-blue);">🚘</div>
+            <div>
+                <div class="stat-num" id="stat-total">12</div>
+                <div class="stat-label">Total Fleet Vehicles</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color:var(--accent-emerald);">✅</div>
+            <div>
+                <div class="stat-num" id="stat-avail">9</div>
+                <div class="stat-label">Available for Rent</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color:var(--accent-gold);">⭐</div>
+            <div>
+                <div class="stat-num">4.9 / 5.0</div>
+                <div class="stat-label">Customer Satisfaction</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="color:var(--accent-purple);">💎</div>
+            <div>
+                <div class="stat-num" id="stat-points">350 pts</div>
+                <div class="stat-label">Active Loyalty Points</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtering & Controls Bar -->
+    <div class="controls-bar" id="fleet-section">
+        <div class="filter-pills">
+            <button class="filter-btn active" onclick="filterCategory('All', this)">All Fleet</button>
+            <button class="filter-btn" onclick="filterCategory('Car', this)">Luxury Cars</button>
+            <button class="filter-btn" onclick="filterCategory('Truck', this)">Trucks & SUVs</button>
+            <button class="filter-btn" onclick="filterCategory('Motorcycle', this)">Motorcycles</button>
+        </div>
+        <input type="text" class="search-input" id="search-box" placeholder="Search by model or brand..." oninput="handleSearch()">
+    </div>
+
+    <!-- Main Content Layout -->
+    <div class="main-container">
         <div>
-            <h2 class="section-title">🚘 Available Fleet</h2>
             <div class="fleet-grid" id="fleet-container"></div>
         </div>
 
         <div>
-            <div class="booking-panel">
-                <h2 class="section-title">📝 Quick Reservation</h2>
-                <div class="form-group">
-                    <label>Select Vehicle</label>
-                    <select id="vehicle-select"></select>
+            <!-- Active Bookings & History Panel -->
+            <div class="side-panel">
+                <h2 style="font-size:1.25rem; font-weight:700; margin-bottom:1.25rem; color:#fff;">📋 Active Reservations</h2>
+                <div id="booking-list">
+                    <p style="color:var(--text-muted); font-size:0.85rem;">No active reservations recorded.</p>
                 </div>
-                <div class="form-group">
-                    <label>Duration (Days)</label>
-                    <input type="number" id="rental-days" value="3" min="1" max="30" onchange="calculateCost()">
-                </div>
-                <div style="background:rgba(255,255,255,0.04); padding:1rem; border-radius:8px; margin-bottom:1rem;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-size:0.9rem;">
-                        <span>Estimated Total:</span>
-                        <strong id="cost-display" style="color:var(--accent-emerald);">$0.00</strong>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--text-muted);">
-                        <span>Loyalty Points Earned:</span>
-                        <strong id="points-display" style="color:var(--accent-gold);">+0 pts</strong>
-                    </div>
-                </div>
-                <button class="btn btn-rent" onclick="confirmReservation()">Confirm Booking</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal-card">
+            <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:0.5rem;" id="modal-vehicle-title">Reserve Vehicle</h2>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;" id="modal-vehicle-subtitle">Configure your rental options and review pricing.</p>
+
+            <div class="form-group">
+                <label>Rental Duration (Days)</label>
+                <input type="number" id="rental-days-input" value="3" min="1" max="30" onchange="updateModalCost()">
             </div>
 
-            <div class="transaction-log">
-                <h3 style="font-size:1.1rem; margin-bottom:1rem;">📋 Active Reservations</h3>
-                <div id="log-container">
-                    <p style="color:var(--text-muted); font-size:0.85rem;">No active reservations yet.</p>
+            <div class="form-group">
+                <label>Add-on Coverage Options</label>
+                <div style="display:flex; flex-direction:column; gap:0.5rem; font-size:0.85rem; color:var(--text-muted);">
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" id="chk-insurance" style="width:auto;" onchange="updateModalCost()"> Full Collision Damage Waiver (+$15/day)
+                    </label>
+                    <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                        <input type="checkbox" id="chk-gps" style="width:auto;" onchange="updateModalCost()"> Premium GPS & WiFi Hotspot (+$5/day)
+                    </label>
                 </div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.04); border-radius:12px; padding:1.25rem; margin-bottom:1.5rem;">
+                <div class="receipt-line"><span>Daily Base Rate:</span><strong id="m-base-rate">$0.00</strong></div>
+                <div class="receipt-line"><span>Duration:</span><strong id="m-duration">3 Days</strong></div>
+                <div class="receipt-line"><span>Add-ons Total:</span><strong id="m-addons">$0.00</strong></div>
+                <div class="receipt-line" style="border-bottom:none; margin-top:0.5rem; font-size:1.1rem; color:var(--accent-emerald);">
+                    <span>Estimated Total:</span><strong id="m-total">$0.00</strong>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:1rem;">
+                <button class="btn btn-secondary" onclick="closeBookingModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="confirmBooking()">Confirm Reservation</button>
             </div>
         </div>
     </div>
 
     <script>
-        const fleet = [
-            { id: "C001", type: "Car", model: "Toyota Camry 2024", rate: 50, status: "Available" },
-            { id: "C002", type: "Car", model: "BMW M4 Competition", rate: 120, status: "Available" },
-            { id: "T001", type: "Truck", model: "Ford F-150 Raptor", rate: 85, status: "Available" },
-            { id: "M001", type: "Motorcycle", model: "Honda CBR 1000RR", rate: 45, status: "Available" }
+        // Default Initial Fleet Dataset
+        const defaultFleet = [
+            { id: "C001", type: "Car", model: "Toyota Camry SE 2024", rate: 55, seats: 5, trans: "Automatic", status: "Available" },
+            { id: "C002", type: "Car", model: "BMW M4 Competition", rate: 135, seats: 4, trans: "Auto Dual-Clutch", status: "Available" },
+            { id: "C003", type: "Car", model: "Mercedes-Benz E-Class", rate: 125, seats: 5, trans: "Automatic", status: "Available" },
+            { id: "T001", type: "Truck", model: "Ford F-150 Raptor 4x4", rate: 95, seats: 5, trans: "Automatic", status: "Available" },
+            { id: "T002", type: "Truck", model: "Chevrolet Silverado 1500", rate: 88, seats: 5, trans: "Automatic", status: "Available" },
+            { id: "M001", type: "Motorcycle", model: "Honda CBR 1000RR Fireblade", rate: 50, seats: 2, trans: "Manual 6-Speed", status: "Available" },
+            { id: "M002", type: "Motorcycle", model: "BMW R 1250 GS Adventure", rate: 65, seats: 2, trans: "Manual 6-Speed", status: "Available" }
         ];
 
-        let points = 350;
-        let reservations = [];
+        // State initialization with localStorage persistence
+        let fleet = JSON.parse(localStorage.getItem('apexdrive_fleet')) || defaultFleet;
+        let reservations = JSON.parse(localStorage.getItem('apexdrive_reservations')) || [];
+        let customerPoints = parseInt(localStorage.getItem('apexdrive_points')) || 350;
+        let selectedVehicle = null;
+        let currentFilter = 'All';
+
+        function saveState() {
+            localStorage.setItem('apexdrive_fleet', JSON.stringify(fleet));
+            localStorage.setItem('apexdrive_reservations', JSON.stringify(reservations));
+            localStorage.setItem('apexdrive_points', customerPoints.toString());
+        }
 
         function renderFleet() {
             const container = document.getElementById('fleet-container');
-            const select = document.getElementById('vehicle-select');
+            const searchVal = document.getElementById('search-box').value.toLowerCase();
             container.innerHTML = '';
-            select.innerHTML = '';
 
-            fleet.forEach(v => {
+            const filtered = fleet.filter(v => {
+                const matchCategory = currentFilter === 'All' || v.type === currentFilter;
+                const matchSearch = v.model.toLowerCase().includes(searchVal);
+                return matchCategory && matchSearch;
+            });
+
+            filtered.forEach(v => {
                 const isAvail = v.status === "Available";
                 const card = document.createElement('div');
                 card.className = 'vehicle-card';
                 card.innerHTML = `
                     <div>
-                        <span class="vehicle-type">${v.type}</span>
-                        <h3 class="vehicle-model">${v.model}</h3>
-                        <div class="vehicle-price">$${v.rate} <span style="font-size:0.8rem; font-weight:normal; color:var(--text-muted);">/ day</span></div>
-                        <span class="status-pill ${isAvail ? 'status-available' : 'status-rented'}">${v.status}</span>
+                        <span class="vehicle-category">${v.type}</span>
+                        <h3 class="vehicle-title">${v.model}</h3>
+                        <div class="vehicle-rate">$${v.rate} <span style="font-size:0.8rem; color:var(--text-muted); font-weight:normal;">/ day</span></div>
+                        <div class="vehicle-specs">
+                            <span class="spec-tag">👥 ${v.seats} Seats</span>
+                            <span class="spec-tag">⚙️ ${v.trans}</span>
+                        </div>
+                        <span class="status-pill ${isAvail ? 'status-available' : 'status-rented'}">
+                            ${isAvail ? 'Available for Rent' : 'Currently Rented'}
+                        </span>
                     </div>
-                    <button class="btn ${isAvail ? 'btn-rent' : 'btn-return'}" onclick="${isAvail ? `selectForRent('${v.id}')` : `returnVehicle('${v.id}')`}">
-                        ${isAvail ? 'Book Now' : 'Return Vehicle'}
+                    <button class="btn ${isAvail ? 'btn-primary' : 'btn-secondary'}" onclick="${isAvail ? `openBookingModal('${v.id}')` : `returnVehicle('${v.id}')`}">
+                        ${isAvail ? 'Book Vehicle' : 'Return Vehicle'}
                     </button>
                 `;
                 container.appendChild(card);
-
-                if (isAvail) {
-                    const opt = document.createElement('option');
-                    opt.value = v.id;
-                    opt.innerText = `${v.model} ($${v.rate}/day)`;
-                    select.appendChild(opt);
-                }
             });
 
-            calculateCost();
+            updateStats();
+            renderReservations();
         }
 
-        function calculateCost() {
-            const selectedId = document.getElementById('vehicle-select').value;
-            const days = parseInt(document.getElementById('rental-days').value) || 1;
-            const vehicle = fleet.find(v => v.id === selectedId);
-
-            if (vehicle) {
-                const total = vehicle.rate * days;
-                const earnedPts = days * 10;
-                document.getElementById('cost-display').innerText = `$${total.toFixed(2)}`;
-                document.getElementById('points-display').innerText = `+${earnedPts} pts`;
-            } else {
-                document.getElementById('cost-display').innerText = "$0.00";
-                document.getElementById('points-display').innerText = "+0 pts";
-            }
-        }
-
-        function selectForRent(id) {
-            document.getElementById('vehicle-select').value = id;
-            calculateCost();
-        }
-
-        function confirmReservation() {
-            const selectedId = document.getElementById('vehicle-select').value;
-            const days = parseInt(document.getElementById('rental-days').value) || 1;
-            const vehicle = fleet.find(v => v.id === selectedId);
-
-            if (!vehicle || vehicle.status !== "Available") return;
-
-            vehicle.status = "Rented";
-            const cost = vehicle.rate * days;
-            const earnedPts = days * 10;
-            points += earnedPts;
-
-            reservations.push({
-                txId: "TX-" + Math.floor(1000 + Math.random() * 9000),
-                model: vehicle.model,
-                days: days,
-                cost: cost
-            });
-
-            updateUserStatus();
+        function filterCategory(cat, el) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            currentFilter = cat;
             renderFleet();
-            renderLogs();
+        }
+
+        function handleSearch() {
+            renderFleet();
+        }
+
+        function updateStats() {
+            const total = fleet.length;
+            const avail = fleet.filter(v => v.status === "Available").length;
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-avail').innerText = avail;
+            document.getElementById('stat-points').innerText = `${customerPoints} pts`;
+
+            let tier = "Silver";
+            if (customerPoints >= 500) tier = "Platinum";
+            else if (customerPoints >= 200) tier = "Gold";
+
+            document.getElementById('tier-display').innerText = `${tier} Tier (${customerPoints} pts)`;
+        }
+
+        function openBookingModal(id) {
+            selectedVehicle = fleet.find(v => v.id === id);
+            if (!selectedVehicle) return;
+
+            document.getElementById('modal-vehicle-title').innerText = `Reserve ${selectedVehicle.model}`;
+            document.getElementById('modal-vehicle-subtitle').innerText = `Rate: $${selectedVehicle.rate}/day | Category: ${selectedVehicle.type}`;
+            document.getElementById('booking-modal').classList.add('active');
+            updateModalCost();
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.remove('active');
+            selectedVehicle = null;
+        }
+
+        function updateModalCost() {
+            if (!selectedVehicle) return;
+            const days = parseInt(document.getElementById('rental-days-input').value) || 1;
+            const ins = document.getElementById('chk-insurance').checked ? 15 : 0;
+            const gps = document.getElementById('chk-gps').checked ? 5 : 0;
+
+            const baseTotal = selectedVehicle.rate * days;
+            const addonsTotal = (ins + gps) * days;
+            const totalCost = baseTotal + addonsTotal;
+
+            document.getElementById('m-base-rate').innerText = `$${selectedVehicle.rate.toFixed(2)}`;
+            document.getElementById('m-duration').innerText = `${days} Days`;
+            document.getElementById('m-addons').innerText = `$${addonsTotal.toFixed(2)}`;
+            document.getElementById('m-total').innerText = `$${totalCost.toFixed(2)}`;
+        }
+
+        function confirmBooking() {
+            if (!selectedVehicle) return;
+            const days = parseInt(document.getElementById('rental-days-input').value) || 1;
+            const ins = document.getElementById('chk-insurance').checked ? 15 : 0;
+            const gps = document.getElementById('chk-gps').checked ? 5 : 0;
+
+            const baseTotal = selectedVehicle.rate * days;
+            const addonsTotal = (ins + gps) * days;
+            const totalCost = baseTotal + addonsTotal;
+            const earnedPoints = days * 10;
+
+            selectedVehicle.status = "Rented";
+            customerPoints += earnedPoints;
+
+            reservations.unshift({
+                txId: "TX-" + Math.floor(100000 + Math.random() * 900000),
+                vehicleId: selectedVehicle.id,
+                model: selectedVehicle.model,
+                days: days,
+                totalCost: totalCost,
+                date: new Date().toLocaleDateString()
+            });
+
+            saveState();
+            closeBookingModal();
+            renderFleet();
         }
 
         function returnVehicle(id) {
             const vehicle = fleet.find(v => v.id === id);
             if (vehicle) {
                 vehicle.status = "Available";
+                saveState();
                 renderFleet();
             }
         }
 
-        function updateUserStatus() {
-            let tier = "Silver";
-            if (points >= 500) tier = "Platinum";
-            else if (points >= 200) tier = "Gold";
-
-            document.getElementById('tier-display').innerText = `${tier} Tier (${points} pts)`;
-        }
-
-        function renderLogs() {
-            const container = document.getElementById('log-container');
+        function renderReservations() {
+            const container = document.getElementById('booking-list');
             if (reservations.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem;">No active reservations yet.</p>`;
+                container.innerHTML = `<p style="color:var(--text-muted); font-size:0.85rem;">No active reservations recorded.</p>`;
                 return;
             }
 
             container.innerHTML = reservations.map(r => `
-                <div class="log-item">
-                    <div>
-                        <strong>${r.model}</strong>
-                        <div style="color:var(--text-muted); font-size:0.75rem;">${r.txId} | ${r.days} Days</div>
+                <div style="padding:1rem 0; border-bottom:1px solid var(--border-color);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem;">
+                        <strong style="color:#fff; font-size:0.95rem;">${r.model}</strong>
+                        <strong style="color:var(--accent-emerald); font-size:0.95rem;">$${r.totalCost.toFixed(2)}</strong>
                     </div>
-                    <strong style="color:var(--accent-emerald);">$${r.cost.toFixed(2)}</strong>
+                    <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted);">
+                        <span>${r.txId} • ${r.days} Days</span>
+                        <span>${r.date}</span>
+                    </div>
                 </div>
             `).join('');
+        }
+
+        function scrollToFleet() {
+            document.getElementById('fleet-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openCustomerModal() {
+            alert("Customer Account Management: Connected as John Doe (Gold Tier Member)");
         }
 
         renderFleet();
